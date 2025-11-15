@@ -1,264 +1,306 @@
-
-
-
-
-
-
-<html>
-
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-<title>Contratos AC Montese</title> 
-<link rel="stylesheet" href="style.css"><style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Correios - Página Moderna Completa</title>
 
-table, td, th, tfoot {border:solid 1px #000; padding:5px;}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", Arial, sans-serif;
+            transition: background 0.3s, color 0.3s;
+        }
 
-th {background-color:#999;}
+        body {
+            background: #f5f7fa;
+            color: #333;
+        }
 
-caption {font-size:x-large;}
+        body.dark {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
 
-colgroup {background:#F60;}
+        header {
+            background: #004a9f;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
 
-.coluna1 {background:#F66;}
+        header.dark {
+            background: #1e3a8a;
+        }
 
-.coluna2  {background:#F33;}
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.coluna3  {background:#F99;}
+        header img {
+            height: 55px;
+        }
 
-</style>
+        .toggle-btn, .export-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #fff;
+            color: #004a9f;
+            font-weight: 600;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
 
+        body.dark .toggle-btn, body.dark .export-btn {
+            background: #1e293b;
+            color: #e2e8f0;
+        }
 
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
 
+        body.dark .container {
+            background: #1e293b;
+        }
 
+        .top-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .titulo-sessao {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #004a9f;
+            font-weight: 600;
+        }
+
+        body.dark .titulo-sessao {
+            color: #60a5fa;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        body.dark .search-box input {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+
+        thead {
+            background: #004a9f;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        body.dark thead {
+            background: #1e3a8a;
+        }
+
+        th, td {
+            padding: 14px 10px;
+            text-align: left;
+        }
+
+        tbody tr:hover {
+            background: #e3ecff;
+        }
+
+        body.dark tbody tr:hover {
+            background: #334155;
+        }
+
+        tr:nth-child(even) {
+            background: #f1f4f9;
+        }
+
+        body.dark tr:nth-child(even) {
+            background: #243447;
+        }
+
+        @media (max-width: 700px) {
+            table, thead, tbody, th, td, tr { display: block; }
+            thead { display: none; }
+            tr {
+                margin-bottom: 12px;
+                background: rgba(0,0,0,0.03);
+                padding: 12px;
+                border-radius: 8px;
+            }
+            td {
+                display: flex;
+                justify-content: space-between;
+            }
+            td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #004a9f;
+            }
+            body.dark td::before { color: #60a5fa; }
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            color: #666;
+        }
+
+        body.dark footer {
+            color: #94a3b8;
+        }
+    </style>
 </head>
-
 <body>
-<img src="cao.png">
 
-<H1>Contratos da AC Montese</h1><br/>
+    <header id="header">
+        <div class="header-left">
+            <img src="correios.png" alt="Logo dos Correios" />
+            <h1>Contratos da AC Montese</h1>
+        </div>
+        <button class="toggle-btn" onclick="toggleDark()">Modo Escuro</button>
+    </header>
 
-<script type="text/javascript">
-function startTime()
-{
-var today=new Date();
-var h=today.getHours();
-var m=today.getMinutes();
-var s=today.getSeconds();
-// add a zero in front of numbers<10
-m=checkTime(m);
-s=checkTime(s);
-document.getElementById('txt').innerHTML=h+":"+m+":"+s;
-t=setTimeout('startTime()',500);
+    <div class="container">
+        <h2 class="titulo-sessao">Lista de Contratos</h2>
 
-}
+        <div class="top-actions">
+            <div class="search-box">
+                <input type="text" id="search" placeholder="Buscar cliente, cartão ou CNPJ..." onkeyup="filterTable()">
+            </div>
 
-function checkTime(i)
-{
-if (i<10)
-  {
-  i="0" + i;
-  }
-return i;
-}
-</script>
+            <div>
+                <button class="export-btn" onclick="exportExcel()">Exportar Excel</button>
+                <button class="export-btn" onclick="exportPDF()">Exportar PDF</button>
+            </div>
+        </div>
 
+        <table id="contratos">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Cliente ▲▼</th>
+                    <th onclick="sortTable(1)">Cartão ▲▼</th>
+                    <th onclick="sortTable(2)">CNPJ ▲▼</th>
+                </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+        </table>
+    </div>
 
-<div id="txt">
-<script type="text/javascript">document.write(startTime())</script>
-</div>
-<table>
+    <footer>
+        © 2025 AC Montese - Correios
+    </footer>
 
+    <script>
+        const data = [
+            ["AKM (RMG Aguiar)","75952483","20.661.994/0001-02"],
+            ["ALOHA TELEATENDIMENTO (MOBWIRE)","78344034","27.025.271/0001-58"],
+            ["AKSM","73213446","11.818.111/0001-26"],
+            ["ANS","75521369","03.589.068/0001-46"],
+            ["Azdent","76900142","41.542.595/0001-94"],
+            ["Azul Linhas Aéreas","62276107","09.296.295/0001-60"],
+            ["Banco do Brasil","74215116","00.000.000/0001-91"],
+            ["Banco do Nordeste","61734632","07.237.373/0300-37"],
+            ["Beup","76882950","42.838.236/0001-41"],
+            ["Base Aerea","75363593","00.394.429/0054-12"],
+            ["Cagece", "71959815","07.040.108/0001-57"],
+            ["Elidiane Pereira dos Santos (Dress New)", "76856941", "12.492.919/0001-29"],
+            ["Eloá Modas", "66664900", "41.560.384/0001-84"],
+	    ["Espaço Della", "75791803", "05.748.282/0001-23"],
+            ["Fachesf", "74698044", "42.160.192/0001-43"],
+            ["Futom", "72766123", "13.688.927/0001-03"],
+            ["Kallifon", "76538397", "63.397.418/0001-02"],
+            ["Keven", "76690229", "02.442.766/0001-51"],
+            ["Kiquitaluki", "75934612", "04.908.056/0001-08"],
+            ["Life Trend", "70035717", "04.968.641/0001-95"],                                                       	    ["Maind Fashion", "76970680", "30.103.658/0001-90"],
+            ["Moda Doll", "71097937", "36.695.900/0001-48"],
+            ["Pque Reg de Manutenção", "74556983", "09.607.967/0001-00"],
+            ["Pierre Cosmeticos", "76405818", "40.525.327/0001-00"],
+            ["São Pedro de Alcântara", "77362462", "11.834.081/0002-22"],
+            ["Serttel", "73236403", "24.144.040/0001-75"],
+            ["Specto (Tiago)", "76550800", "95.849.642/0001-76"],
+            ["SumUp", "72433493", "37.241.230/0001-52"],
+            ["Tato Atelie", "76737497", "34.065.120/0001-99"],
+            ["Ziva Brasil", "77107268", "38.131.891/0001-98"]
+        ]        
+        function renderTable(){
+            const tbody = document.getElementById("tbody");
+            tbody.innerHTML = "";
+            data.forEach(row => {
+                tbody.innerHTML += `<tr>
+                    <td data-label="Cliente">${row[0]}</td>
+                    <td data-label="Cartão">${row[1]}</td>
+                    <td data-label="CNPJ">${row[2]}</td>
+                </tr>`;
+            });
+        }
 
+        renderTable();
 
-<tr>
-<td><b><h2>CLIENTE</h2></b></td>
-<td><b><h2>Cartão</h2></b></td>
-<td><b><h2>CNPJ</h2></b></td>
-</tr>
+        function toggleDark() {
+            document.body.classList.toggle("dark");
+            document.getElementById("header").classList.toggle("dark");
+        }
 
+        function filterTable() {
+            let input = document.getElementById("search").value.toLowerCase();
+            let rows = document.querySelectorAll("#contratos tbody tr");
 
+            rows.forEach(row => {
+                let text = row.innerText.toLowerCase();
+                row.style.display = text.includes(input) ? "table-row" : "none";
+            });
+        }
 
-<tr>
-<td>AKM (RMG Aguiar)</td>
-<td>75952483</td>
-<td>20.661.994/0001-02</td>
-</tr>
-  
-<tr>
-<td>ALOHA TELEATENDIMENTO (MOBWIRE)</td>
-<td>78344034</td>
-<td>27.025.271/0001-58</td>
-</tr>
-  
-<tr>
-<td>AKSM</td>
-<td>73213446</td>
-<td>11.818.111/0001-26</td>
-</tr>
+        function sortTable(col){
+            data.sort((a,b)=> a[col].localeCompare(b[col]));
+            renderTable();
+        }
 
-<td>ANS</td>
-<td>75521369</td>
-<td>03.589.068/0001-46</td>
-</tr>
+        function exportExcel(){
+            let table = document.getElementById("contratos").outerHTML;
+            let blob = new Blob([table], {type:'application/vnd.ms-excel'});
+            let url = URL.createObjectURL(blob);
+            let a = document.createElement('a');
+            a.href = url;
+            a.download = "contratos.xls";
+            a.click();
+        }
 
-<tr>
-<td>Azdent</td>
-<td>76900142</td>
-<td>41.542.595/0001-94</td>
-</tr>
-
-<tr>
-<td>Azul Linhas Aéreas</td>
-<td>62276107</td>
-<td>09.296.295/0001-60</td>
-</tr>
-
-<tr>
-<td>Banco do Brasil</td>
-<td>74215116</td>
-<td>00.000.000/0001-91</td>
-</tr>
-
-<tr>
-<td>Banco do Nordeste</td>
-<td>61734632</td>
-<td>07.237.373/0300-37</td>
-</tr>
-
-<tr>
-<td>Beup</td>
-<td>76882950</td>
-<td>42.838.236/0001-41</td>
-</tr>
-
-
-<tr>
-<td>Base Aerea</td>
-<td>75363593</td>
-<td>00.394.429/0054-12</td>
-</tr>
-
-<tr>
-<td>Cagece</td>
-<td>71959815</td>
-<td>07.040.108/0001-57</td>
-</tr>
-
-
-<tr>
-<td>Elidiane Pereira dos Santos (Dress New)</td>
-<td>76856941</td>
-<td>12.492.919/0001-29</td>
-</tr>
-
-<tr>
-<td>Eloá Modas</td>
-<td>66664900</td>
-<td>41.560.384/0001-84</td>
-</tr>
-
-<tr>
-<td>Espaço Della</td>
-<td>75791803</td>
-<td>05.748.282/0001-23</td>
-</tr>
-
-<tr>
-<td>Fachesf</td>
-<td>74698044</td>
-<td>42.160.192/0001-43</td>
-</tr>
-
-<tr>
-<td>Futom</td>
-<td>72766123</td>
-<td>13.688.927/0001-03</td>
-</tr>
-
-<tr>
-<td>Kallifon</td>
-<td>76538397</td>
-<td>63.397.418/0001-02</td>
-</tr>
-
-<tr>
-<td>Keven</td>
-<td>76690229</td>
-<td>02.442.766/0001-51</td>
-</tr>
-
-<tr>
-<td>Kiquitaluki</td>
-<td>75934612</td>
-<td>04.908.056/0001-08</td>
-</tr>
-
-<tr>
-<td>Life Trend</td>
-<td>70035717</td>
-<td>04.968.641/0001-95</td>
-</tr>
-
-<tr>
-<td>Maind Fashion</td>
-<td>76970680</td>
-<td>30.103.658/0001-90</td>
-</tr>
-
-
-<tr>
-<td>Moda Doll</td>
-<td>71097937</td>
-<td>36.695.900/0001-48</td>
-</tr>
-
-<tr>
-<td>Pque Reg de Manutenção</td>
-<td>74556983</td>
-<td>09.607.967/0001-00</td>
-</tr>
-
-<tr>
-<td>Pierre Cosmeticos</td>
-<td>76405818</td>
-<td>40.525.327/0001-00</td>
-</tr>
-
-<tr>
-<td>São Pedro de Alcântara</td>
-<td>77362462</td>
-<td>11.834.081/0002-22</td>
-</tr>
-  
-<tr>
-<td>Serttel</td>
-<td>73236403</td>
-<td>24.144.040/0001-75</td>
-</tr>
-
-<td>Specto (Tiago)</td>
-<td>76550800</td>
-<td>95.849.642/0001-76</td>
-</tr>
-<tr>
-<td>SumUp</td>
-<td>72433493</td>
-<td>37.241.230/0001-52</td>
-</tr>
-
-<tr>
-<td>Tato Atelie</td>
-<td>76737497</td>
-<td>34.065.120/0001-99</td>
-</tr>
-
-<tr>
-<td>Ziva Brasil</td>
-<td>77107268</td>
-<td>38.131.891/0001-98</td>
-</tr>
-</table>
-
+        function exportPDF(){
+            const pdfWindow = window.open("", "", "width=800,height=900");
+            pdfWindow.document.write(`<html><body>${document.getElementById("contratos").outerHTML}</body></html>`);
+            pdfWindow.print();
+        }
+    </script>
 
 </body>
-
 </html>
